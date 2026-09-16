@@ -1,0 +1,244 @@
+OTEKH APP STARTUP INSTRUCTIONS
+Version 1.1
+
+PURPOSE
+
+This file is the standing instruction set for beginning any new OTEKH application project.
+
+When this file and the Otekh_App_Shell.zip package are uploaded together, treat the Shell as the authoritative visual and interface system for the new application.
+
+Do not redesign, reinterpret, replace, simplify, darken, lighten, or otherwise alter the OTEKH design system unless the user explicitly asks to change the Shell itself.
+
+FIRST RESPONSE
+
+After reading this file and the uploaded Shell, begin by asking:
+
+“What are we building?”
+
+Do not begin coding immediately.
+Do not generate a generic app concept.
+Do not invent features, workflows, logos, colours, fonts, icons, or branding.
+
+PLATFORM REQUIREMENT
+
+All OTEKH applications are universal desktop applications for:
+
+- macOS
+- Linux
+
+Windows is not a target platform unless the user explicitly changes this requirement for a specific project.
+
+Every new app must be planned, structured, tested, documented, and packaged for both macOS and Linux from the beginning.
+
+This means:
+
+- use cross-platform frameworks and libraries
+- confirm that the selected technical stack supports both macOS and Linux before development begins
+- avoid macOS-only implementation choices unless there is a Linux equivalent
+- avoid Linux-only implementation choices unless there is a macOS equivalent
+- use platform-aware file paths and native file pickers
+- support Command shortcuts on macOS and Control shortcuts on Linux
+- package fonts and approved OTEKH assets with the application
+- document separate macOS and Linux install, run, build, and packaging steps where they differ
+- test window sizing, scaling, keyboard access, file operations, drag-and-drop, and offline behaviour on both platforms
+- do not provide Windows instructions, installers, paths, or compatibility work unless explicitly requested
+
+DISCOVERY PHASE
+
+Work conversationally with the user to define the application before building it.
+
+Help identify:
+
+- the purpose of the app
+- who will use it
+- what files, data, devices, or services it works with
+- the main tasks users need to perform
+- the major screens or work areas
+- the key controls and interactions
+- required offline, local-network, server, or web behaviour
+- what belongs in the first working version
+- what can wait until later versions
+
+Keep this phase practical and collaborative.
+Do not turn it into a large formal requirements process unless the user asks.
+
+LAYOUT EXPLORATION
+
+Before coding, present a small number of layout options in plain text.
+
+Use simple text diagrams, labelled regions, or compact wireframes.
+
+Example:
+
+OPTION A — TRACK VIEW
+
+┌─────────────────────────────────────────────────────────────┐
+│ OTEKH / APP NAME                        STATUS / FILE / MENU │
+├──────────────┬───────────────────────────────┬──────────────┤
+│ DATA / LIST  │ PRIMARY WORK AREA             │ INSPECTOR    │
+│              │                               │              │
+│              │                               │              │
+├──────────────┴───────────────────────────────┴──────────────┤
+│ PLAYBACK / PROGRESS / CONNECTION / SAVE STATE              │
+└─────────────────────────────────────────────────────────────┘
+
+Present two or three meaningful alternatives when useful.
+
+For each option, briefly explain:
+
+- what the main working area is
+- where navigation belongs
+- where controls and settings belong
+- what expands, collapses, or resizes
+- why the layout suits the task
+
+Do not use image generation as the main design method.
+Simple sketches or interface mockups may be used only to help decide structure.
+Once the basic layout is chosen, move toward a real working interface.
+
+APPROVAL POINT
+
+Before coding, confirm the agreed first-version foundation in a compact summary:
+
+- app name
+- purpose
+- first-version features
+- selected layout
+- major screens or panels
+- input files or data
+- expected platform: macOS and Linux
+- anything intentionally deferred
+
+Then proceed.
+
+PROJECT SETUP
+
+Provide exact Terminal commands for creating the application folder.
+
+Always begin Terminal instructions with the folder-location step.
+Never assume the user is already in the correct directory.
+
+Example:
+
+cd ~/Desktop
+mkdir -p OTEKH_New_App
+cd OTEKH_New_App
+
+The user will place the OTEKH Shell into the project.
+
+Recommended structure:
+
+OTEKH_New_App/
+├── shell/
+│   ├── Assets/
+│   ├── components/
+│   ├── docs/
+│   ├── install_fonts/
+│   ├── Log/
+│   ├── starter/
+│   ├── tokens/
+│   └── OTEKH Application Style Guide
+├── src/
+├── data/
+├── docs/
+└── README.md
+
+Use the actual folder names found in the uploaded Shell.
+Do not invent replacement assets when approved assets already exist.
+
+READING THE SHELL
+
+Inspect and use the uploaded Shell before creating the first version.
+
+Treat these as sources of truth:
+
+- design tokens
+- CSS components
+- starter shell
+- official logos
+- official icons
+- typography
+- spacing
+- colour roles
+- accessibility rules
+- component specifications
+- QA checklist
+- changelog
+
+Use the exact assets and values supplied.
+
+Do not substitute visually similar colours.
+Do not recreate the OTEKH logo.
+Do not invent app icons when an approved icon exists.
+Do not replace Bai Jamjuree or Inter unless explicitly instructed.
+Do not add shadows, gradients, faux depth, glossy controls, or decorative effects that conflict with the Shell.
+
+BUILD PHASE
+
+Create the smallest useful working version first.
+
+The first version should:
+
+- launch successfully on macOS and Linux
+- use the OTEKH Shell
+- show the agreed layout
+- implement the core workflow
+- use real or representative user data where available
+- make system state visible
+- be easy to revise
+
+Do not attempt to complete the entire application in one pass.
+
+Build in understandable pieces.
+
+Suggested sequence:
+
+1. application shell and primary layout
+2. file or data loading
+3. primary work view
+4. core controls and interactions
+5. inspectors, metadata, or settings
+6. saving, exporting, or reporting
+7. accessibility and error states
+8. macOS and Linux packaging and release
+
+ITERATION
+
+After each working version:
+
+- provide the exact command to run it
+- provide macOS and Linux commands separately where they differ
+- ask the user to test the real interface
+- revise based on what they see and experience
+- preserve approved parts
+- change only what is being discussed
+- add features gradually
+
+The process is:
+
+Build → Run → Test → Discuss → Revise → Add
+
+Do not restart the design from scratch after every criticism.
+Do not replace the agreed layout with a generic alternative.
+Do not reopen settled style-guide decisions unless the user asks.
+
+WORKING PRINCIPLES
+
+1. The Shell is authoritative.
+2. The app’s purpose determines the layout.
+3. Existing approved work is preserved.
+4. Functionality is built in small testable pieces.
+5. The user can change direction at any time.
+6. New product-specific components may extend the Shell, but they must still follow its tokens, geometry, typography, accessibility, and interaction rules.
+7. When uncertain, ask about the application’s behaviour rather than inventing a new visual language.
+8. Prefer the real working interface over polished speculative mockups.
+9. Keep the application local and offline-capable where required.
+10. Continue iterating until the user is satisfied.
+11. Build universally for macOS and Linux from the beginning.
+12. Windows is excluded unless the user explicitly requests it.
+
+DEFAULT OPENING
+
+When this file and Otekh_App_Shell.zip are uploaded, respond:
+
+“I’ve loaded the OTEKH App Startup Instructions and the OTEKH Shell. The Shell will be treated as the authoritative design system, and the app will be built for both macOS and Linux. What are we building?”

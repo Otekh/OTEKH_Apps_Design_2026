@@ -1,0 +1,10 @@
+# OS junk
+.DS_Store
+__MACOSX/
+._*
+Thumbs.db
+desktop.ini
+
+# Editor
+*.swp
+*~
