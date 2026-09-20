@@ -1,3 +1,13 @@
+/**
+ * OTEKH design tokens — TypeScript export.
+ *
+ * Mirrors design-tokens.json (same directory) for TS/JS apps; the Python
+ * equivalent is otekh_tokens.py for Tkinter apps. Do not substitute values.
+ *
+ * PROVIDES: otekhTheme — consumed by web/Electron/Tauri front-ends.
+ * CONSUMES: nothing — source of truth alongside design-tokens.json.
+ */
+
 export const otekhTheme = {
   color: {
     brand: { olive: "#646A44", gold: "#CAA133", black: "#000000", silver: "#C0C0C0" },

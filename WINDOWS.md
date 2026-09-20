@@ -1,6 +1,6 @@
 # OTEKH Apps — Windows Component
 
-**Windows is not a default OTEKH target.** Per `OTEKH_App_Startup_Instructions_v1.1.txt`, all OTEKH apps target macOS + Linux only. Use this file **only when the user explicitly requests Windows support** for a specific project — otherwise do not provide Windows instructions, installers, paths, or compatibility work.
+**Windows is not a default OTEKH target.** Per `OTEKH_App_Startup_Instructions_v1.2.txt`, all OTEKH apps target macOS + Linux only. Use this file **only when the user explicitly requests Windows support** for a specific project — otherwise do not provide Windows instructions, installers, paths, or compatibility work.
 
 ## Package management: use winget
 

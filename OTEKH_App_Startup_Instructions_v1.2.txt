@@ -1,11 +1,16 @@
 OTEKH APP STARTUP INSTRUCTIONS
-Version 1.1
+Version 1.2
+
+(Revision note: v1.2 adds the Raspberry Pi / Tkinter local-app target, the
+Shell's Tkinter toolkit (otekh_tokens.py, otekh_shell.py, TTF fonts,
+starter-shell-tkinter.py, docs/TKINTER.md, RASPBERRY_PI.md), the
+human-readable-code rule, and the commenting standards.)
 
 PURPOSE
 
 This file is the standing instruction set for beginning any new OTEKH application project.
 
-When this file and the Otekh_App_Shell.zip package are uploaded together, treat the Shell as the authoritative visual and interface system for the new application.
+When this file and the Otekh_App_Shell package are uploaded together, treat the Shell as the authoritative visual and interface system for the new application.
 
 Do not redesign, reinterpret, replace, simplify, darken, lighten, or otherwise alter the OTEKH design system unless the user explicitly asks to change the Shell itself.
 
@@ -21,27 +26,43 @@ Do not invent features, workflows, logos, colours, fonts, icons, or branding.
 
 PLATFORM REQUIREMENT
 
-All OTEKH applications are universal desktop applications for:
+OTEKH applications come in two shapes:
 
-- macOS
-- Linux
+1. UNIVERSAL DESKTOP APPS — the default. Built for:
+   - macOS
+   - Linux
 
-Windows is not a target platform unless the user explicitly changes this requirement for a specific project.
+   Windows is not a target platform unless the user explicitly changes this requirement for a specific project.
 
-Every new app must be planned, structured, tested, documented, and packaged for both macOS and Linux from the beginning.
+   Every universal app must be planned, structured, tested, documented, and packaged for both macOS and Linux from the beginning.
 
-This means:
+   This means:
+   - use cross-platform frameworks and libraries
+   - confirm that the selected technical stack supports both macOS and Linux before development begins
+   - avoid macOS-only implementation choices unless there is a Linux equivalent
+   - avoid Linux-only implementation choices unless there is a macOS equivalent
+   - use platform-aware file paths and native file pickers
+   - support Command shortcuts on macOS and Control shortcuts on Linux
+   - package fonts and approved OTEKH assets with the application
+   - document separate macOS and Linux install, run, build, and packaging steps where they differ
+   - test window sizing, scaling, keyboard access, file operations, drag-and-drop, and offline behaviour on both platforms
+   - do not provide Windows instructions, installers, paths, or compatibility work unless explicitly requested
 
-- use cross-platform frameworks and libraries
-- confirm that the selected technical stack supports both macOS and Linux before development begins
-- avoid macOS-only implementation choices unless there is a Linux equivalent
-- avoid Linux-only implementation choices unless there is a macOS equivalent
-- use platform-aware file paths and native file pickers
-- support Command shortcuts on macOS and Control shortcuts on Linux
-- package fonts and approved OTEKH assets with the application
-- document separate macOS and Linux install, run, build, and packaging steps where they differ
-- test window sizing, scaling, keyboard access, file operations, drag-and-drop, and offline behaviour on both platforms
-- do not provide Windows instructions, installers, paths, or compatibility work unless explicitly requested
+2. RASPBERRY PI LOCAL APPS — single-machine apps that run on a Pi 4/5 with a local display: sensor stations, kiosks, field devices, lab instruments. These are Linux apps first (everything in LINUX.md applies) but may be Pi-only when they depend on GPIO/I2C hardware.
+
+   For Pi local apps:
+   - the reference stack is Python + CustomTkinter — see RASPBERRY_PI.md and Otekh_App_Shell/docs/TKINTER.md
+   - use the Shell's Tkinter toolkit: tokens/otekh_tokens.py, tkinter/otekh_shell.py, starter/starter-shell-tkinter.py
+   - use the TTF fonts in install_fonts/*/ttf/ — Tkinter cannot load WOFF2
+   - GPIO on Pi 5 uses rpi-lgpio (never RPi.GPIO); I2C uses adafruit-circuitpython-* libraries
+   - hardware failures surface as empty/None readings, never crashes
+   - ship install/update/uninstall scripts and a .desktop entry so the app behaves like a native Pi application
+
+CODE REQUIREMENTS
+
+- Apps must be written in a human-readable programming language — never delivered as binary or machine-language-only artifacts.
+- Code must be clear and maintainable enough that a human user can make changes without agent assistance: sensible structure, meaningful names, comments where needed, no obfuscation or opaque generated-only code.
+- Follow the OTEKH commenting standards (agent.md / DEVIN.md): file headers declaring PROVIDES/CONSUMES, commented imports, section banners, cross-file call-site notes, WHY-not-WHAT comments, and no stale comments — written as you code, never deferred.
 
 DISCOVERY PHASE
 
@@ -106,7 +127,7 @@ Before coding, confirm the agreed first-version foundation in a compact summary:
 - selected layout
 - major screens or panels
 - input files or data
-- expected platform: macOS and Linux
+- expected platform: macOS and Linux, or Raspberry Pi OS for local apps
 - anything intentionally deferred
 
 Then proceed.
@@ -134,6 +155,7 @@ OTEKH_New_App/
 │   ├── components/
 │   ├── docs/
 │   ├── install_fonts/
+│   ├── tkinter/
 │   ├── Log/
 │   ├── starter/
 │   ├── tokens/
@@ -146,15 +168,17 @@ OTEKH_New_App/
 Use the actual folder names found in the uploaded Shell.
 Do not invent replacement assets when approved assets already exist.
 
+For Tkinter apps, copy tokens/otekh_tokens.py and tkinter/otekh_shell.py into the project's source tree (or import them in place) so the app reads token values directly rather than copying hex codes.
+
 READING THE SHELL
 
 Inspect and use the uploaded Shell before creating the first version.
 
 Treat these as sources of truth:
 
-- design tokens
-- CSS components
-- starter shell
+- design tokens (design-tokens.json, otekh-tokens.css, otekh-theme.ts, otekh_tokens.py)
+- CSS components (web) and the Tkinter shell toolkit (otekh_shell.py)
+- starter shells (starter-shell.html, starter-shell-tkinter.py)
 - official logos
 - official icons
 - typography
@@ -173,13 +197,15 @@ Do not invent app icons when an approved icon exists.
 Do not replace Bai Jamjuree or Inter unless explicitly instructed.
 Do not add shadows, gradients, faux depth, glossy controls, or decorative effects that conflict with the Shell.
 
+Font note: web/Electron apps use the WOFF2 files in install_fonts/; Tkinter apps must use the TTF builds in install_fonts/*/ttf/ and install them before the Tk root is created (otekh_shell.ensure_fonts() does this). Keep licence files with distributed fonts in both cases.
+
 BUILD PHASE
 
 Create the smallest useful working version first.
 
 The first version should:
 
-- launch successfully on macOS and Linux
+- launch successfully on its target platforms
 - use the OTEKH Shell
 - show the agreed layout
 - implement the core workflow
@@ -193,21 +219,21 @@ Build in understandable pieces.
 
 Suggested sequence:
 
-1. application shell and primary layout
+1. application shell and primary layout (starter-shell.html or starter-shell-tkinter.py)
 2. file or data loading
 3. primary work view
 4. core controls and interactions
 5. inspectors, metadata, or settings
 6. saving, exporting, or reporting
 7. accessibility and error states
-8. macOS and Linux packaging and release
+8. packaging and release for the target platforms
 
 ITERATION
 
 After each working version:
 
 - provide the exact command to run it
-- provide macOS and Linux commands separately where they differ
+- provide macOS, Linux, and/or Raspberry Pi OS commands separately where they differ
 - ask the user to test the real interface
 - revise based on what they see and experience
 - preserve approved parts
@@ -234,11 +260,12 @@ WORKING PRINCIPLES
 8. Prefer the real working interface over polished speculative mockups.
 9. Keep the application local and offline-capable where required.
 10. Continue iterating until the user is satisfied.
-11. Build universally for macOS and Linux from the beginning.
+11. Build universally for macOS and Linux from the beginning — or explicitly for Raspberry Pi OS when the app is a Pi local app.
 12. Windows is excluded unless the user explicitly requests it.
+13. Code stays human-readable and human-maintainable, commented to the OTEKH commenting standards as it is written.
 
 DEFAULT OPENING
 
-When this file and Otekh_App_Shell.zip are uploaded, respond:
+When this file and Otekh_App_Shell are uploaded, respond:
 
-“I’ve loaded the OTEKH App Startup Instructions and the OTEKH Shell. The Shell will be treated as the authoritative design system, and the app will be built for both macOS and Linux. What are we building?”
+“I’ve loaded the OTEKH App Startup Instructions and the OTEKH Shell. The Shell will be treated as the authoritative design system. Universal apps are built for macOS and Linux; Raspberry Pi local apps use the Shell's Tkinter toolkit. What are we building?”

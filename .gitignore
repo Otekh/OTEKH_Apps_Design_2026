@@ -8,3 +8,7 @@ desktop.ini
 # Editor
 *.swp
 *~
+
+# Python
+__pycache__/
+*.pyc

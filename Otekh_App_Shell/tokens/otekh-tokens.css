@@ -1,3 +1,15 @@
+/*
+ * OTEKH design tokens — CSS custom properties.
+ *
+ * Mirrors design-tokens.json (same directory) for web apps; the TS export
+ * is otekh-theme.ts and the Python/Tkinter export is otekh_tokens.py.
+ * Includes the [data-otekh-theme="dark"] overrides. Do not substitute values.
+ *
+ * PROVIDES: --otekh-* custom properties consumed by
+ *           components/otekh-components.css and OTEKH web apps.
+ * CONSUMES: nothing — source of truth alongside design-tokens.json.
+ */
+
 :root {
   --otekh-brand-olive: #646a44;
   --otekh-brand-gold: #caa133;

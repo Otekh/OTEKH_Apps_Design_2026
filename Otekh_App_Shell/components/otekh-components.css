@@ -1,3 +1,15 @@
+/*
+ * OTEKH component styles — the CSS implementation of the design system.
+ *
+ * Owns @font-face declarations for the bundled fonts and every shared
+ * component class (panels, buttons, nav, tables, dialogs, status).
+ *
+ * PROVIDES: .otekh-* component classes consumed by starter/starter-shell.html,
+ *           components/component-gallery.html, and OTEKH web apps.
+ * CONSUMES: tokens/otekh-tokens.css (custom properties), install_fonts/
+ *           (WOFF2 files referenced by @font-face).
+ */
+
 @font-face {
   font-family: "Bai Jamjuree";
   src: url("../install_fonts/Bai_Jamjuree/bai-jamjuree-latin-400-normal.woff2") format("woff2");

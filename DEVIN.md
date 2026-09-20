@@ -9,7 +9,7 @@ The standing design system and process guide for building **OTEKH applications**
 ## Trigger behaviour
 
 - If the user asks for app building **without specifying** whether it is an OTEKH app, ask: "Is this an OTEKH app?"
-- If yes (or already specified): follow `OTEKH_App_Startup_Instructions_v1.1.txt` as the process and treat `Otekh_App_Shell/` as the authoritative visual/interface system.
+- If yes (or already specified): follow `OTEKH_App_Startup_Instructions_v1.2.txt` as the process and treat `Otekh_App_Shell/` as the authoritative visual/interface system.
 - If no: proceed normally under `../agent.md` rules.
 
 ## Process (from the startup instructions)
@@ -24,30 +24,48 @@ The standing design system and process guide for building **OTEKH applications**
 ## Hard rules
 
 - **The Shell is authoritative.** Do not redesign, recolour, substitute fonts, recreate logos, or add gradients/shadows/gloss. Use exact tokens and supplied assets.
+- **Human-readable, human-editable code.** Apps must be written in a human-readable programming language — never delivered as binary or machine-language-only artifacts. Code must be clear and maintainable enough that a human user can make changes without agent assistance: sensible structure, meaningful names, comments where needed, no obfuscation or opaque generated-only code.
+- **Cross-OS by design.** Structure all code for cross-platform functionality from the start — macOS and Linux are the priority targets; add Windows only when the user explicitly requests it. No platform-locked implementation choices without an equivalent on the other target.
 - **Platforms: macOS + Linux only**, planned from the start. No Windows work unless explicitly requested. Linux specifics: `LINUX.md`.
 - **Fonts**: bundle `install_fonts/` files with the app; keep licences; no runtime font downloads.
 - **Assets**: use supplied logos/icons as-is (`Assets/`). Never invent replacements.
 - **New components** may extend the Shell but must follow its tokens, geometry, typography, accessibility, and interaction rules.
+
+## Commenting standards
+
+All code in OTEKH apps follows this standard, written as you code — never deferred. If a project's existing commenting exceeds it, match the higher standard.
+
+- **File header**: every source file opens with a docstring (Python) or block comment (JS/CSS/HTML) stating what the file owns — which globals/functions it PROVIDES and which it CONSUMES, naming the source file for each (e.g. `App.api` from app.js, `WeatherStation` from sensors.py).
+- **Import blocks**: comment what each import is for, especially imports from other project files (name the file and what it provides).
+- **Section banners**: `# ---` / `/* --- */` banners separate major areas so readers can navigate.
+- **Cross-file call sites**: when code calls a function or uses a global defined in another file and the relationship isn't obvious, add an inline note naming the source file.
+- **Explain WHY and WHERE-FROM, not WHAT** — capture intent, data flow, and non-obvious constraints; don't narrate code line by line.
+- **No stale comments** — if a change makes a comment wrong, fix or remove it in the same edit.
 
 ## Folder map
 
 ```
 OTEKH_Apps_Design_2026/
 ├── README.md                                # overview and entry point
-├── OTEKH_App_Startup_Instructions_v1.1.txt   # process — read first
+├── OTEKH_App_Startup_Instructions_v1.2.txt   # process — read first
 ├── DEVIN.md                                 # this file
+├── agent.md                                 # same rules for non-DEVIN agents
 ├── LINUX.md                                 # Linux setup/packaging/testing
 ├── MACOS.md                                 # macOS setup/packaging/testing
+├── RASPBERRY_PI.md                          # Pi OS + Tkinter for local apps
 ├── WINDOWS.md                               # Windows — only when explicitly requested
 └── Otekh_App_Shell/                         # authoritative design system
     ├── Assets/                              # logos, app icons, UI reference image
     ├── components/                          # otekh-components.css + component-gallery.html
-    ├── docs/                                # STYLE_GUIDE, COMPONENT_SPECS, FONTS,
+    ├── docs/                                # STYLE_GUIDE, COMPONENT_SPECS, FONTS, TKINTER,
     │                                        # ICON_AND_LOGO_RULES, ACCESSIBILITY, QA_CHECKLIST
-    ├── install_fonts/                       # Bai Jamjuree + Inter WOFF2 + licences
+    ├── install_fonts/                       # Bai Jamjuree + Inter WOFF2 + licences;
+    │                                        # */ttf/ TTF builds for Tkinter
+    ├── tkinter/                             # otekh_shell.py — CustomTkinter shell toolkit
     ├── Log/CHANGELOG.md                     # design-system version history
-    ├── starter/starter-shell.html           # reference layout (top bar / nav / canvas / inspector / status)
-    ├── tokens/                              # design-tokens.json, otekh-tokens.css, otekh-theme.ts
+    ├── starter/                             # starter-shell.html + starter-shell-tkinter.py
+    ├── tokens/                              # design-tokens.json, otekh-tokens.css,
+    │                                        # otekh-theme.ts, otekh_tokens.py
     └── _OTEKH_Application_Style_Guide_Final.pdf
 ```
 
