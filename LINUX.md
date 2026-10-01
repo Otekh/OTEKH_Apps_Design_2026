@@ -1,6 +1,6 @@
 # OTEKH Apps — Linux Component
 
-Linux is a first-class target for every OTEKH application, alongside macOS. Windows is excluded unless the user explicitly requests it. This file covers the Linux-side setup, conventions, and packaging expectations. For the full process, see `OTEKH_App_Startup_Instructions_v1.2.txt`; for design rules, see `Otekh_App_Shell/docs/`.
+Linux is a first-class target for every OTEKH application, alongside macOS. Windows is excluded unless the user explicitly requests it. This file covers the Linux-side setup, conventions, and packaging expectations. For the full process, see `OTEKH_App_Startup_Instructions_v1.3.txt`; for design rules, see `Otekh_App_Shell/docs/`.
 
 ## Package management: use nala, not apt
 

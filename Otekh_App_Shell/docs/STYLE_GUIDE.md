@@ -168,6 +168,17 @@ Not every application needs all five regions. Remove a region only when its func
 
 The central workspace should receive the most area. Sidebars should be resizable when their content varies. At narrow widths, inspectors become drawers and secondary navigation collapses behind a labelled control.
 
+### Menus and toolbars
+
+Two navigation patterns are in use; choose per app shape:
+
+- **Left nav** — for apps with a deep, persistent section hierarchy (the five-region layout). Current item gets a gold edge marker.
+- **Menu toolbar** — for multi-tool or project-scoped apps: a light toolbar under the top bar carrying labelled dropdowns (`Project ▾`, `Workspace ▾`). Menu items are actions or destinations, not settings pages; the current item is bold, and an overflow item ("Other projects…") sits at the foot separated by a rule.
+
+The top bar always carries a right-aligned **user menu** when the app has accounts: the button shows `name · role` (role in gold); items run app actions → Profile → admin items (admin roles only, hidden otherwise) → Sign out (warning colour) → destructive actions like Shut down (error colour, last). Admin-only items are hidden in the UI and enforced again on the server.
+
+See `COMPONENT_SPECS.md` (Dropdown menus) and `SECURITY_PRIVACY.md` for behaviour and role rules.
+
 ## 8. Components
 
 See `COMPONENT_SPECS.md` for implementation details.
@@ -232,7 +243,16 @@ At compact widths, use one principal column, move inspectors to drawers, convert
 
 See `ACCESSIBILITY.md`. The minimum target is WCAG 2.2 AA for web interfaces and equivalent platform accessibility for desktop applications.
 
-## 14. Governance and versioning
+## 14. Privacy, security, and the no-cookie protocol
+
+OTEKH applications ship with **zero cookie tracking**. The lab is not in the business of surveillance: no analytics, advertising, fingerprinting, or third-party identifiers — and no consent banners, because there is nothing to consent to. Every app must function fully with cookies disabled.
+
+- Sessions are header tokens (`Authorization: Bearer` / `X-Session-Token`) held in memory or per-tab storage. A single first-party `HttpOnly; SameSite=Lax` session cookie is permitted only as an optional fallback copy of that token — never required, never containing profile data.
+- Passwords are always masked in the UI, stored salted+hashed, and bootstrap credentials live in a separate gitignored `auth` file.
+- Admin capabilities are hidden from unauthorized roles in the UI and enforced server-side.
+- Full rules — session transport, roles, sharing, idle/shutdown, and what must never ship — are in `SECURITY_PRIVACY.md`.
+
+## 15. Governance and versioning
 
 - Design-system versions use semantic versioning.
 - Token changes require a changelog entry.

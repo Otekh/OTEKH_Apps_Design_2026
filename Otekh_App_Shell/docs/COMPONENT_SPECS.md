@@ -4,6 +4,23 @@
 
 Use `surface.chrome` with light text. Product identity sits at the left. Current project/context follows. Global status and user controls sit at the right. A selected top-level tab uses a gold underline or gold label, not a raised glossy tab.
 
+## Dropdown menus
+
+Class family: `.otekh-menu` (wrapper), `.otekh-menu__btn` (trigger), `.otekh-menu__drop` (list), `.otekh-menu-item` (item). The wrapper gets `.open` while expanded; the trigger carries `aria-haspopup="true"` and tracks `aria-expanded`. Only one menu is open at a time; a click outside or on any item closes it.
+
+### User menu (top bar, right edge)
+
+- Trigger shows `name · role` — the role renders in gold via `.role`.
+- Item order: app-specific actions → Profile → admin items → Sign out → destructive actions.
+- `.menuitem-admin` items render only for admin-role users.
+- `.otekh-menu-item--warn` (pressed gold) marks sign-out; `.otekh-menu-item--danger` (error colour) marks destructive actions, which sit last.
+- Drop is right-aligned to the trigger, panel surface, 1 px border, min-width 170 px.
+
+### Toolbar menus (`otekh-menu--toolbar` in `.otekh-toolbar`)
+
+- For Project/Workspace switchers under the top bar: light surface, dark text, drop left-aligned.
+- The current item is bold (`.current`); a trailing `.otekh-menu-item--other` separator item handles overflow (e.g. "Other projects…").
+
 ## Buttons
 
 ### Primary
@@ -73,6 +90,18 @@ Use a slider when the range and relative position matter. Always show the exact 
 - distinguish lines through pattern/weight as well as colour,
 - tooltips include timestamp, value, unit, and series name,
 - live charts indicate paused versus streaming state.
+
+## Sign-in card
+
+`.otekh-login` centres `.otekh-login__card` (an `.otekh-panel`, 340 px) on the canvas. Contents: full-colour OTEKH logo (`.otekh-login__logo`, 120 px), uppercase display title in olive (`.otekh-login__title`), labelled User/Password fields, `.otekh-help` for password requirements, `.otekh-login__error` for failures, and a full-width primary Enter button. Password inputs are always `type="password"` — never reveal or log them.
+
+## Landing tiles
+
+`.otekh-landing` centres `.otekh-tiles` for multi-tool apps — one `.otekh-tile` button (300 px, panel surface, 4 px radius) per module with a display-face title and a one-line description of what the tool works on. Hover gets a gold border; never more tiles than the app has real modules.
+
+## Modals
+
+`.otekh-modal` is the fixed dim overlay (shown when `.open`); `.otekh-modal__content` is the `.otekh-panel` card (max-width 720 px default, narrower for password/idle prompts). Markup carries `role="dialog"`, `aria-modal="true"`, an object-specific `h2`, and a top-right `.otekh-modal__close`. Idle and share-password prompts use a ~420 px content width and centre vertically higher (`margin:15% auto`).
 
 ## Dialogs
 

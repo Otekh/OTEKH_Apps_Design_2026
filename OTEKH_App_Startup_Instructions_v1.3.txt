@@ -1,10 +1,15 @@
 OTEKH APP STARTUP INSTRUCTIONS
-Version 1.2
+Version 1.3
 
-(Revision note: v1.2 adds the Raspberry Pi / Tkinter local-app target, the
-Shell's Tkinter toolkit (otekh_tokens.py, otekh_shell.py, TTF fonts,
-starter-shell-tkinter.py, docs/TKINTER.md, RASPBERRY_PI.md), the
-human-readable-code rule, and the commenting standards.)
+(Revision note: v1.3 aligns the Shell with the shipped apps — OTEKH Lab
+Workspace and OTEKH Data Cleaning: shared app chrome (.otekh-topbar,
+.otekh-statusbar), dropdown menus (.otekh-menu family: top-bar user menu
+with role gating + warn/danger items, .otekh-menu--toolbar for
+Project/Workspace switchers), the .otekh-login sign-in card, .otekh-tiles
+landing chooser, and .otekh-modal dialogs. It also adds the NO-COOKIE
+ETHICS PROTOCOL (see PRIVACY AND SECURITY and docs/SECURITY_PRIVACY.md):
+no cookie tracking of any kind; sessions ride header tokens; apps must
+function fully with cookies disabled.)
 
 PURPOSE
 
@@ -63,6 +68,19 @@ CODE REQUIREMENTS
 - Apps must be written in a human-readable programming language — never delivered as binary or machine-language-only artifacts.
 - Code must be clear and maintainable enough that a human user can make changes without agent assistance: sensible structure, meaningful names, comments where needed, no obfuscation or opaque generated-only code.
 - Follow the OTEKH commenting standards (agent.md / DEVIN.md): file headers declaring PROVIDES/CONSUMES, commented imports, section banners, cross-file call-site notes, WHY-not-WHAT comments, and no stale comments — written as you code, never deferred.
+
+PRIVACY AND SECURITY — NO-COOKIE ETHICS PROTOCOL
+
+OTEKH labs is not in the business of surveillance. Every web app is designed to function properly and securely without cookie tracking of any kind:
+
+- NO COOKIES REQUIRED — the app must work fully with cookies blocked or cleared. Authentication rides on a session token sent as a request header (Authorization: Bearer or X-Session-Token), held client-side in memory or per-tab sessionStorage.
+- NO TRACKING — no analytics, advertising, fingerprinting, third-party identifiers, or cross-site anything. No consent banners either: there is nothing to consent to.
+- OPTIONAL SESSION COOKIE — at most one first-party HttpOnly SameSite=Lax cookie may carry the same session token as a fallback for full-page loads; it is never required and never holds profile data.
+- AUTH FILE — bootstrap credentials live in a separate gitignored auth file (username=/password=), seeded into the user store at startup; passwords are salted+hashed in the store.
+- MASKED PASSWORDS — every password field is masked; passwords never appear in logs, URLs, or error messages.
+- ROLE GATING — admin features are hidden from other roles in the UI and re-enforced on the server; hiding alone is not authorization.
+
+Full rules and the shared auth/admin UI patterns are in Otekh_App_Shell/docs/SECURITY_PRIVACY.md.
 
 DISCOVERY PHASE
 
@@ -186,6 +204,7 @@ Treat these as sources of truth:
 - colour roles
 - accessibility rules
 - component specifications
+- security and privacy rules (docs/SECURITY_PRIVACY.md — no-cookie protocol, auth, roles)
 - QA checklist
 - changelog
 
@@ -263,9 +282,10 @@ WORKING PRINCIPLES
 11. Build universally for macOS and Linux from the beginning — or explicitly for Raspberry Pi OS when the app is a Pi local app.
 12. Windows is excluded unless the user explicitly requests it.
 13. Code stays human-readable and human-maintainable, commented to the OTEKH commenting standards as it is written.
+14. No cookie tracking — sessions use header tokens; the app works fully with cookies disabled (docs/SECURITY_PRIVACY.md).
 
 DEFAULT OPENING
 
 When this file and Otekh_App_Shell are uploaded, respond:
 
-“I’ve loaded the OTEKH App Startup Instructions and the OTEKH Shell. The Shell will be treated as the authoritative design system. Universal apps are built for macOS and Linux; Raspberry Pi local apps use the Shell's Tkinter toolkit. What are we building?”
+“I’ve loaded the OTEKH App Startup Instructions and the OTEKH Shell. The Shell will be treated as the authoritative design system. Universal apps are built for macOS and Linux; Raspberry Pi local apps use the Shell's Tkinter toolkit. All apps follow the no-cookie ethics protocol — no tracking of any kind. What are we building?”

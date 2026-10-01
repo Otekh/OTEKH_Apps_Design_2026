@@ -39,6 +39,15 @@
 - Permissions, access level, and provenance are visible for archive material.
 - Error messages do not expose secrets or sensitive paths.
 
+## Privacy and security
+
+- App functions fully with all cookies blocked or cleared (no feature depends on a cookie).
+- No tracking of any kind: no analytics, advertising, fingerprinting, or third-party identifiers; no cookie/consent banners.
+- At most one first-party `HttpOnly; SameSite=Lax` session cookie, used only as an optional fallback for the header token — see `SECURITY_PRIVACY.md`.
+- Passwords masked in every UI field; stored salted+hashed; bootstrap credentials in the gitignored `auth` file only.
+- Admin-only features hidden for other roles in the UI and re-enforced on the server.
+- Session tokens never appear in URLs; logout invalidates them server-side.
+
 ## Platform
 
 - macOS package and window behaviour checked.

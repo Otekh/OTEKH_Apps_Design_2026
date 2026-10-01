@@ -1,6 +1,6 @@
 # OTEKH Apps — Raspberry Pi Component
 
-Raspberry Pi OS is a target for **local, single-machine OTEKH applications**: sensor stations, kiosks, field devices, and lab instruments that run on a Pi 4/5 with a local display. These apps are Linux apps first — everything in `LINUX.md` applies — but they are allowed to be Pi-only when they depend on GPIO/I2C hardware. For the full process, see `OTEKH_App_Startup_Instructions_v1.2.txt`; for design rules, see `Otekh_App_Shell/docs/`.
+Raspberry Pi OS is a target for **local, single-machine OTEKH applications**: sensor stations, kiosks, field devices, and lab instruments that run on a Pi 4/5 with a local display. These apps are Linux apps first — everything in `LINUX.md` applies — but they are allowed to be Pi-only when they depend on GPIO/I2C hardware. For the full process, see `OTEKH_App_Startup_Instructions_v1.3.txt`; for design rules, see `Otekh_App_Shell/docs/`.
 
 ## Stack: Tkinter/CustomTkinter
 
@@ -58,6 +58,19 @@ Ship three scripts (see the Weather app for a working set):
 - `scripts/install.sh` — installs `uv` if missing, `uv sync` (venv + deps), copies icon/wordmark/fonts, writes launcher + `.desktop`, warns if `/dev/i2c-1` is absent. Uses nala→apt fallback for system packages.
 - `scripts/update.sh` — `git pull --ff-only` then re-runs the installer; skips gracefully when offline or not a git checkout.
 - `scripts/uninstall.sh` — removes launcher, icon, fonts, `.desktop`, app share dir; leaves `.venv/` (inside the repo) and `uv` itself.
+
+**Run-anywhere command standard:** `install.sh` writes a single dispatcher to `~/.local/bin/<app>` (or `/usr/local/bin` when writable). Bare `<app>` launches the GUI; lifecycle actions are **flags**, matching every other OTEKH app:
+
+```bash
+<app>                # launch the app
+<app> --install      # re-run scripts/install.sh
+<app> --update       # run scripts/update.sh
+<app> --uninstall    # run scripts/uninstall.sh
+```
+
+Accept the bare words (`update`, `uninstall`) as aliases for muscle memory, but document only the flag forms. Extra args pass through to the script.
+
+**Optional: local/git update source prompt.** Apps whose devices may lack git credentials (or receive files by SCP) can have `update.sh` ask interactively whether to re-install the local checkout (`local`) or `git pull` first (`git`), with `<app> --update local|git` skipping the prompt. Non-interactive callers (the in-app updater) must default to `git`. PitFire and the Weather app do this; not every app needs it.
 
 **In-app updates** (optional, recommended for distributed devices): `git fetch` + commits-behind count on a worker thread, `GIT_TERMINAL_PROMPT=0` so auth failures never hang, deferred-update flag in `~/.local/share/<app>/`, run `update.sh` and restart via `os.execv(sys.executable, [sys.executable, "-m", "<pkg>"])`. External users get the same flow for free as long as their clone can read the remote — public repo needs nothing extra.
 

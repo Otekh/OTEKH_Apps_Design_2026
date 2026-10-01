@@ -1,6 +1,6 @@
 # OTEKH Apps — macOS Component
 
-macOS is a first-class target for every OTEKH application, alongside Linux. This file covers the macOS-side setup, conventions, and packaging expectations. For the full process, see `OTEKH_App_Startup_Instructions_v1.2.txt`; for design rules, see `Otekh_App_Shell/docs/`.
+macOS is a first-class target for every OTEKH application, alongside Linux. This file covers the macOS-side setup, conventions, and packaging expectations. For the full process, see `OTEKH_App_Startup_Instructions_v1.3.txt`; for design rules, see `Otekh_App_Shell/docs/`.
 
 ## Package management: use Homebrew
 

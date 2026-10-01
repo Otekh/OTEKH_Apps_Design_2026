@@ -99,6 +99,96 @@
       </div>
     </section>
 
+    <!-- App chrome + menus — the dropdowns shipped apps use for the user
+         menu (top bar, right-aligned) and Project/Workspace menus
+         (toolbar variant, left-aligned). -->
+    <section class="otekh-panel" style="grid-column:1/-1">
+      <div class="otekh-panel__title">App chrome + menus</div>
+      <div class="otekh-panel__body stack">
+        <header class="otekh-topbar" style="min-height:48px">
+          <span class="brand">OTEKH LABS</span>
+          <span class="context">Project / Wetland Study A</span>
+          <span class="top-spacer"></span>
+          <span style="color:var(--otekh-status-good)">● Connected</span>
+          <div class="otekh-menu open">
+            <button class="otekh-menu__btn" type="button" aria-haspopup="true" aria-expanded="true">
+              A. Researcher <span class="role">· admin</span> &#9662;
+            </button>
+            <div class="otekh-menu__drop" role="menu" style="position:static">
+              <button class="otekh-menu-item" role="menuitem">Profile</button>
+              <button class="otekh-menu-item menuitem-admin" role="menuitem">Manage users</button>
+              <button class="otekh-menu-item otekh-menu-item--warn" role="menuitem">Sign out</button>
+              <button class="otekh-menu-item otekh-menu-item--danger" role="menuitem">Shut down</button>
+            </div>
+          </div>
+        </header>
+        <div class="otekh-toolbar">
+          <div class="otekh-menu otekh-menu--toolbar open">
+            <button class="otekh-menu__btn" type="button" aria-haspopup="true" aria-expanded="true">Project &#9662;</button>
+            <div class="otekh-menu__drop" role="menu" style="position:static">
+              <button class="otekh-menu-item current" role="menuitem">Wetland Study A</button>
+              <button class="otekh-menu-item" role="menuitem">Archive Catalogue</button>
+              <button class="otekh-menu-item otekh-menu-item--other" role="menuitem">Other projects…</button>
+            </div>
+          </div>
+          <div class="otekh-menu otekh-menu--toolbar">
+            <button class="otekh-menu__btn" type="button" aria-haspopup="true" aria-expanded="false">Workspace &#9662;</button>
+          </div>
+        </div>
+        <footer class="otekh-statusbar"><span>System operational</span><span>Storage 62%</span><span>v1.0.0</span></footer>
+      </div>
+    </section>
+
+    <!-- Sign-in + landing — the entry surfaces every authenticated OTEKH
+         web app shares: centred login card (passwords masked), then a
+         tile chooser when the app has more than one tool. -->
+    <section class="otekh-panel">
+      <div class="otekh-panel__title">Sign-in card</div>
+      <div class="otekh-panel__body">
+        <div class="otekh-login__card otekh-panel" style="margin:0 auto">
+          <h1 class="otekh-login__title">APP NAME</h1>
+          <div class="otekh-field">
+            <label class="otekh-label" for="demoUser">User</label>
+            <input type="text" id="demoUser" class="otekh-input" autocomplete="username">
+          </div>
+          <div class="otekh-field">
+            <label class="otekh-label" for="demoPass">Password</label>
+            <input type="password" id="demoPass" class="otekh-input" autocomplete="current-password">
+            <span class="otekh-help">Required for admin and expert users.</span>
+          </div>
+          <p class="otekh-login__error">Incorrect password</p>
+          <button class="otekh-button otekh-button--primary otekh-login__enter">Enter</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="otekh-panel">
+      <div class="otekh-panel__title">Landing tiles + modal</div>
+      <div class="otekh-panel__body stack">
+        <div class="otekh-tiles">
+          <button class="otekh-tile">
+            <span class="otekh-tile__title">Tool One</span>
+            <span class="otekh-tile__desc">What this tool does and what it works on.</span>
+          </button>
+          <button class="otekh-tile">
+            <span class="otekh-tile__title">Tool Two</span>
+            <span class="otekh-tile__desc">What this tool does and what it works on.</span>
+          </button>
+        </div>
+        <!-- Modal markup (static demo). Real modals start hidden and get
+             .open toggled on the .otekh-modal overlay. -->
+        <div class="otekh-modal__content otekh-panel" style="margin:0">
+          <button class="otekh-modal__close" aria-label="Close">&times;</button>
+          <h2>Delete recording?</h2>
+          <p>This removes "take 3" permanently. The entry itself is kept.</p>
+          <div class="row">
+            <button class="otekh-button">Cancel</button>
+            <button class="otekh-button otekh-button--danger">Delete recording</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="otekh-panel" style="grid-column:1/-1">
       <div class="otekh-tabs" role="tablist">
         <button class="otekh-tab" role="tab">Table</button>

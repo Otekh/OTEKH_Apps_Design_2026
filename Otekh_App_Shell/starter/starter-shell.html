@@ -5,8 +5,19 @@
 
   PROVIDES: the canonical region structure and token usage for new apps;
             its Tkinter twin is starter/starter-shell-tkinter.py.
-  CONSUMES: components/otekh-components.css (which pulls tokens/otekh-tokens.css
-            and install_fonts/ WOFF2 files).
+  CONSUMES: components/otekh-components.css (which @imports
+            tokens/otekh-tokens.css and install_fonts/ WOFF2 files).
+
+  Menu model (matches shipped apps): the top bar carries a right-aligned
+  .otekh-menu user menu — profile/users under admin gating, sign-out
+  (warn), shutdown (danger). Apps with several tools may replace the
+  left nav with an .otekh-toolbar row of .otekh-menu--toolbar dropdowns
+  (e.g. "Project ▾", "Workspace ▾"); keep the left nav when the app
+  has a deep, persistent hierarchy.
+
+  PRIVACY: no cookies. Session state is an Authorization/X-Session-Token
+  header token held in memory (or per-tab storage as a convenience),
+  never a tracking cookie — see docs/SECURITY_PRIVACY.md.
 -->
 
 <html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
@@ -16,18 +27,18 @@
   <title>OTEKH Starter Shell</title>
   <link rel="stylesheet" href="../components/otekh-components.css">
   <style>
-    body { min-height:100vh; display:grid; grid-template:64px 1fr 44px / 256px 1fr 320px; }
-    .top { grid-column:1/-1; background:#282b24; color:#f2f1e9; border-bottom:3px solid #caa133; display:flex; align-items:center; padding:0 16px; gap:24px; }
-    .brand { font:600 18px "Bai Jamjuree"; }
-    .context { color:#c7c7c4; }
-    nav { background:#adaca6; border-right:1px solid #818377; padding:16px; }
-    nav a { display:block; padding:9px 10px; color:#282b24; text-decoration:none; border-left:3px solid transparent; }
-    nav a[aria-current="page"] { color:#282b24; border-left-color:#caa133; font-weight:600; }
+    /* Layout-only styles — all colour/type comes from the tokens via
+       otekh-components.css. Chrome uses .otekh-topbar / .otekh-statusbar. */
+    body { min-height:100vh; display:grid; grid-template:56px 1fr 32px / 256px 1fr 320px; }
+    .otekh-topbar { grid-column:1/-1; }
+    nav { background:var(--otekh-surface-recessed); border-right:1px solid var(--otekh-border); padding:16px; }
+    nav a { display:block; padding:9px 10px; color:var(--otekh-text); text-decoration:none; border-left:3px solid transparent; }
+    nav a[aria-current="page"] { border-left-color:var(--otekh-brand-gold); font-weight:600; }
     main { padding:16px; overflow:auto; }
-    aside { border-left:1px solid #818377; background:#c7c7c4; padding:12px; }
-    footer { grid-column:1/-1; background:#282b24; color:#c7c7c4; display:flex; align-items:center; justify-content:space-between; padding:0 16px; font-size:12px; }
-    h1 { margin:0 0 12px; font:600 20px "Bai Jamjuree"; color:#646a44; }
-    @media(max-width:900px) { body { grid-template:64px 1fr 44px / 1fr; } nav,aside { display:none; } .top,footer { grid-column:1; } }
+    aside { border-left:1px solid var(--otekh-border); background:var(--otekh-surface-panel); padding:12px; }
+    .otekh-statusbar { grid-column:1/-1; }
+    h1 { margin:0 0 12px; font:600 20px var(--otekh-font-display); color:var(--otekh-brand-olive); }
+    @media(max-width:900px) { body { grid-template:56px 1fr 32px / 1fr; } nav,aside { display:none; } .otekh-topbar,.otekh-statusbar { grid-column:1; } }
   </style>
 
 <!--[if gte mso 9]><xml>
@@ -39,7 +50,25 @@
 </xml><![endif]-->
 </head>
 <body>
-  <header class="top"><span class="brand">OTEKH LABS</span><span class="context">Project / Wetland Study A</span><span style="margin-left:auto;color:#aec76f">● Connected</span></header>
+  <header class="otekh-topbar">
+    <span class="brand">OTEKH LABS</span>
+    <span class="context">Project / Wetland Study A</span>
+    <span class="top-spacer"></span>
+    <span style="color:var(--otekh-status-good)">● Connected</span>
+    <!-- User menu: name + role; admin items hidden for non-admin roles;
+         warn = sign out, danger = destructive (see COMPONENT_SPECS.md). -->
+    <div class="otekh-menu">
+      <button class="otekh-menu__btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="usermenu-name">A. Researcher <span class="role">· admin</span></span> &#9662;
+      </button>
+      <div class="otekh-menu__drop" role="menu">
+        <button class="otekh-menu-item" data-action="profile" role="menuitem">Profile</button>
+        <button class="otekh-menu-item menuitem-admin" data-action="users" role="menuitem">Manage users</button>
+        <button class="otekh-menu-item otekh-menu-item--warn" data-action="logout" role="menuitem">Sign out</button>
+        <button class="otekh-menu-item otekh-menu-item--danger" data-action="shutdown" role="menuitem">Shut down</button>
+      </div>
+    </div>
+  </header>
   <nav aria-label="Primary">
     <a href="#">Overview</a>
     <a href="#" aria-current="page">Live data</a>
@@ -54,7 +83,38 @@
     <section class="otekh-panel"><div class="otekh-panel__title">Primary work canvas</div><div class="otekh-panel__body">Place the active chart, media viewer, editor, table, map, or project material here.</div></section>
   </main>
   <aside><section class="otekh-panel"><div class="otekh-panel__title">Inspector</div><div class="otekh-panel__body">Properties, metadata, permissions, parameters, and history.</div></section></aside>
-  <footer><span>System operational</span><span>Storage 62%</span><span>v1.0.0</span></footer>
+  <footer class="otekh-statusbar"><span>System operational</span><span>Storage 62%</span><span>v1.0.0</span></footer>
+
+  <script>
+    /* Canonical dropdown behaviour for .otekh-menu: click toggles .open,
+       aria-expanded tracks state, only one menu open at a time, and any
+       outside click or menu-item click closes it. Apps replace the
+       data-action dispatch with their own handlers. */
+    document.querySelectorAll('.otekh-menu').forEach(function (menu) {
+      var btn = menu.querySelector('.otekh-menu__btn');
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        document.querySelectorAll('.otekh-menu.open').forEach(function (m) {
+          if (m !== menu) { m.classList.remove('open'); m.querySelector('.otekh-menu__btn').setAttribute('aria-expanded', 'false'); }
+        });
+      });
+      menu.addEventListener('click', function (e) {
+        var item = e.target.closest('.otekh-menu-item');
+        if (!item || !menu.contains(item)) return;
+        menu.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        // TODO: dispatch on item.dataset.action (profile/users/logout/shutdown…)
+      });
+    });
+    document.addEventListener('click', function () {
+      document.querySelectorAll('.otekh-menu.open').forEach(function (m) {
+        m.classList.remove('open');
+        m.querySelector('.otekh-menu__btn').setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
 </body>
 </html>
 

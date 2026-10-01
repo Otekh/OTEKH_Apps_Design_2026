@@ -9,7 +9,7 @@ The standing design system and process guide for building **OTEKH applications**
 ## Trigger behaviour
 
 - If the user asks for app building **without specifying** whether it is an OTEKH app, ask: "Is this an OTEKH app?"
-- If yes (or already specified): follow `OTEKH_App_Startup_Instructions_v1.2.txt` as the process and treat `Otekh_App_Shell/` as the authoritative visual/interface system.
+- If yes (or already specified): follow `OTEKH_App_Startup_Instructions_v1.3.txt` as the process and treat `Otekh_App_Shell/` as the authoritative visual/interface system.
 - If no: proceed normally under `../agent.md` rules.
 
 ## Process (from the startup instructions)
@@ -30,6 +30,7 @@ The standing design system and process guide for building **OTEKH applications**
 - **Fonts**: bundle `install_fonts/` files with the app; keep licences; no runtime font downloads.
 - **Assets**: use supplied logos/icons as-is (`Assets/`). Never invent replacements.
 - **New components** may extend the Shell but must follow its tokens, geometry, typography, accessibility, and interaction rules.
+- **No-cookie ethics protocol.** Web apps must function fully and securely with zero cookie tracking — no analytics, advertising, fingerprinting, or third-party identifiers. Sessions are header tokens (`Authorization: Bearer` / `X-Session-Token`); at most one optional first-party `HttpOnly; SameSite=Lax` session-cookie fallback, never required. Passwords masked and salted+hashed; bootstrap credentials in a gitignored `auth` file; admin features hidden per role in the UI and enforced server-side. Full spec: `Otekh_App_Shell/docs/SECURITY_PRIVACY.md`.
 
 ## Commenting standards
 
@@ -47,7 +48,7 @@ All code in OTEKH apps follows this standard, written as you code — never defe
 ```
 OTEKH_Apps_Design_2026/
 ├── README.md                                # overview and entry point
-├── OTEKH_App_Startup_Instructions_v1.2.txt   # process — read first
+├── OTEKH_App_Startup_Instructions_v1.3.txt   # process — read first
 ├── DEVIN.md                                 # this file
 ├── agent.md                                 # same rules for non-DEVIN agents
 ├── LINUX.md                                 # Linux setup/packaging/testing
@@ -58,7 +59,8 @@ OTEKH_Apps_Design_2026/
     ├── Assets/                              # logos, app icons, UI reference image
     ├── components/                          # otekh-components.css + component-gallery.html
     ├── docs/                                # STYLE_GUIDE, COMPONENT_SPECS, FONTS, TKINTER,
-    │                                        # ICON_AND_LOGO_RULES, ACCESSIBILITY, QA_CHECKLIST
+    │                                        # ICON_AND_LOGO_RULES, ACCESSIBILITY, QA_CHECKLIST,
+    │                                        # SECURITY_PRIVACY (no-cookie protocol + auth/admin)
     ├── install_fonts/                       # Bai Jamjuree + Inter WOFF2 + licences;
     │                                        # */ttf/ TTF builds for Tkinter
     ├── tkinter/                             # otekh_shell.py — CustomTkinter shell toolkit
