@@ -2,6 +2,9 @@
 
 How to build an OTEKH-looking application with Tkinter/CustomTkinter — the
 reference stack for Raspberry Pi local apps and lightweight desktop tools.
+For macOS/Linux desktop apps where aesthetics is the priority, use
+PySide6/Qt instead — see `NATIVE_DESKTOP.md` for the non-webapp design
+approach, frontend dispatch, and desktop conventions.
 The design system itself is unchanged: same tokens, same fonts, same
 layout regions. This file only covers the translation.
 

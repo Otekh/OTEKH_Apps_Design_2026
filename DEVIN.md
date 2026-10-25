@@ -59,6 +59,7 @@ OTEKH_Apps_Design_2026/
     ├── Assets/                              # logos, app icons, UI reference image
     ├── components/                          # otekh-components.css + component-gallery.html
     ├── docs/                                # STYLE_GUIDE, COMPONENT_SPECS, FONTS, TKINTER,
+    │                                        # NATIVE_DESKTOP (non-webapp design approach),
     │                                        # ICON_AND_LOGO_RULES, ACCESSIBILITY, QA_CHECKLIST,
     │                                        # SECURITY_PRIVACY (no-cookie protocol + auth/admin)
     ├── install_fonts/                       # Bai Jamjuree + Inter WOFF2 + licences;
