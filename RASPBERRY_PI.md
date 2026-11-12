@@ -57,7 +57,7 @@ Ship three scripts (see the Weather app for a working set):
 
 - `scripts/install.sh` — installs `uv` if missing, `uv sync` (venv + deps), copies icon/wordmark/fonts, writes launcher + `.desktop`, warns if `/dev/i2c-1` is absent. Uses nala→apt fallback for system packages.
 - `scripts/update.sh` — `git pull --ff-only` then re-runs the installer; skips gracefully when offline or not a git checkout.
-- `scripts/uninstall.sh` — removes launcher, icon, fonts, `.desktop`, app share dir; leaves `.venv/` (inside the repo) and `uv` itself.
+- `scripts/uninstall.sh` — removes launcher, icon, fonts, `.desktop`, app share dir; leaves `.venv/` (inside the repo) and `uv` itself. Must also carry the canonical "Shared OTEKH uninstall convention" block (see below) so the `apps/` registry stays accurate.
 
 **Run-anywhere command standard:** `install.sh` writes a single dispatcher to `~/.local/bin/<app>` (or `/usr/local/bin` when writable). Bare `<app>` launches the GUI; lifecycle actions are **flags**, matching every other OTEKH app:
 
@@ -72,7 +72,7 @@ Accept the bare words (`update`, `uninstall`) as aliases for muscle memory, but 
 
 **Optional: local/git update source prompt.** Apps whose devices may lack git credentials (or receive files by SCP) can have `update.sh` ask interactively whether to re-install the local checkout (`local`) or `git pull` first (`git`), with `<app> --update local|git` skipping the prompt. Non-interactive callers (the in-app updater) must default to `git`. PitFire and the Weather app do this; not every app needs it.
 
-**App Manager.** Pi apps also ship the shared installer block and write a running marker (`running/<app>.env` in the launcher, no `exec` — keep a wrapper so TERM/INT exits 0 and the EXIT trap sweeps the marker). On a PIXEL desktop the status-bar manager installs normally via the shared venv; headless Pis skip it gracefully while `otekh_apps_stop` still works. Contract: `APP_MANAGER.md`.
+**App Manager.** Pi apps also ship the shared installer block and write a running marker (`running/<app>.env` in the launcher, no `exec` — keep a wrapper so TERM/INT exits 0 and the EXIT trap sweeps the marker). On a PIXEL desktop the status-bar manager installs normally via the shared venv; headless Pis skip it gracefully while `otekh_apps_stop` still works. On uninstall, call `remove_otekh_registration` from the canonical uninstall block (in `uninstall.sh`, copied verbatim from `OTEKH_Lab_Workspace/uninstall.sh` — it drops the app's `apps/<app>.env` marker and removes the App Manager only when no other OTEKH app markers remain). Contract: `APP_MANAGER.md`.
 
 **In-app updates** (optional, recommended for distributed devices): `git fetch` + commits-behind count on a worker thread, `GIT_TERMINAL_PROMPT=0` so auth failures never hang, deferred-update flag in `~/.local/share/<app>/`, run `update.sh` and restart via `os.execv(sys.executable, [sys.executable, "-m", "<pkg>"])`. External users get the same flow for free as long as their clone can read the remote — public repo needs nothing extra.
 

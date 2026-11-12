@@ -16,7 +16,7 @@ Every OTEKH app **must** ship the shared installer block and write a running mar
 | `com.otekh.tray.plist` | `~/Library/LaunchAgents/` (macOS) | autostart, logs to `otekh-tray.log`, restart-on-crash only |
 | `otekh-tray.desktop` | `~/.config/autostart/` (Linux) | autostart |
 | shared venv | `~/.local/share/otekh/venv` | one PySide6 install for all apps |
-| registries | `~/.local/share/otekh/apps/`, `…/running/` | static install markers + live markers |
+| registries | `~/.local/share/otekh/apps/`, `…/running/` | installed-apps markers + live running markers |
 
 All installs share `~/.local/share/otekh/` — the newest installer version wins (`OTKH_APPS_STOP_VERSION` stamp), so any app updating refreshes the tools for every app.
 
@@ -74,6 +74,16 @@ install_otekh_stop_tool
 ```
 
 Keep the copies byte-identical; the version stamp lets the newest one win.
+
+## Uninstall contract — the apps/ registry decides the manager's fate
+
+`apps/<app>.env` is not just an install stamp — it is **the** registry of installed OTEKH apps. Every app's `uninstall.sh` must carry the canonical **"Shared OTEKH uninstall convention"** block (defined in `OTEKH_Lab_Workspace/uninstall.sh`, spliced identically into every app's uninstaller with only `OTKH_APP_NAME` changed) and call `remove_otekh_registration` during launcher removal:
+
+1. Delete `apps/<app>.env` (and any stray `running/<app>.env`).
+2. If other `apps/*.env` markers remain → keep the App Manager; those apps still need it.
+3. If the registry is empty → remove the manager entirely: stop the tray (`pkill -f otekh_tray.py`, `launchctl bootout` on macOS), delete `otekh_apps_stop` / `otekh_apps_menu` / `otekh_tray` from both bin dirs, the `OTEKH App Manager.app`/`otekh-app-manager.desktop` launchers, the LaunchAgent/autostart entries, and the shared `~/.local/share/otekh/` state (venv, tray script, icon, logs, locks), then `rmdir` the empty registry dirs.
+
+Partial uninstalls count too — a partially-removed app is no longer installed, so its marker must go even when its data is kept.
 
 ## Wrapper conventions
 
