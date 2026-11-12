@@ -51,6 +51,7 @@ OTEKH applications come in two shapes:
    - package fonts and approved OTEKH assets with the application
    - document separate macOS and Linux install, run, build, and packaging steps where they differ
    - test window sizing, scaling, keyboard access, file operations, drag-and-drop, and offline behaviour on both platforms
+   - ship the shared OTEKH App Manager installer block and write a running marker so the status-bar manager can list and stop the app (APP_MANAGER.md); apps where a blunt kill is unsafe register a graceful STOP_CMD instead of their own shutdown UI
    - do not provide Windows instructions, installers, paths, or compatibility work unless explicitly requested
 
 2. RASPBERRY PI LOCAL APPS — single-machine apps that run on a Pi 4/5 with a local display: sensor stations, kiosks, field devices, lab instruments. These are Linux apps first (everything in LINUX.md applies) but may be Pi-only when they depend on GPIO/I2C hardware.

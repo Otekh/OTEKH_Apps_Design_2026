@@ -8,7 +8,8 @@ The standing design system and process guide for building **OTEKH applications**
 2. **Design source of truth**: `Otekh_App_Shell/` — tokens, components, fonts, assets, and docs. Treat it as authoritative; do not redesign or substitute.
 3. **Platform specifics**: `LINUX.md` and `MACOS.md` — environment setup, fonts, paths, packaging, and testing. `RASPBERRY_PI.md` — Pi OS + Tkinter/CustomTkinter for local apps (sensor stations, kiosks). `WINDOWS.md` exists only for projects where the user explicitly requests Windows (not a default target).
 4. **Security & privacy**: `Otekh_App_Shell/docs/SECURITY_PRIVACY.md` — the no-cookie ethics protocol plus the shared authentication, role, and administration patterns (header-token sessions, masked passwords, gitignored `auth` file, server-enforced role gating).
-5. **Agent instructions**: `DEVIN.md` — how an AI assistant should apply this guide.
+5. **Shared lifecycle infra**: `APP_MANAGER.md` — the OTEKH App Manager (status-bar shutdown/manager entry) and the marker/shutdown contract every app must follow: ship the shared installer block, write a running marker, register `STOP_CMD` if a kill would be unsafe.
+6. **Agent instructions**: `DEVIN.md` — how an AI assistant should apply this guide.
 
 ## Contents
 
@@ -22,6 +23,7 @@ OTEKH_Apps_Design_2026/
 ├── MACOS.md                                 # macOS setup/packaging/testing
 ├── RASPBERRY_PI.md                          # Pi OS + Tkinter for local apps
 ├── WINDOWS.md                               # Windows — only when explicitly requested
+├── APP_MANAGER.md                           # shared status-bar manager + shutdown contract
 └── Otekh_App_Shell/                         # authoritative design system
     ├── Assets/                              # logos, app icons, UI reference image
     ├── components/                          # otekh-components.css + component-gallery.html

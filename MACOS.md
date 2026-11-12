@@ -56,6 +56,7 @@ Keep `LICENSE.txt` files alongside any distributed fonts.
 - Ship a proper `.app` bundle with `Info.plist` (bundle ID, version, document types).
 - App icon as `.icns` — generate from the PNG export set per `docs/ICON_AND_LOGO_RULES.md` (16–1024 px).
 - Support standard menu items (About, Preferences `Cmd+,`, Quit `Cmd+Q`).
+- **OTEKH App Manager**: ship the shared installer block (`~/Applications/OTEKH App Manager.app` + `com.otekh.tray` LaunchAgent) and write a running marker. Wrappers must exit `0` on TERM/INT — a LaunchServices-launched app that dies by signal is reported as "quit unexpectedly". Contract: `APP_MANAGER.md`.
 
 ## Packaging targets
 

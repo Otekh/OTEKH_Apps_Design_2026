@@ -31,6 +31,7 @@ The standing design system and process guide for building **OTEKH applications**
 - **Assets**: use supplied logos/icons as-is (`Assets/`). Never invent replacements.
 - **New components** may extend the Shell but must follow its tokens, geometry, typography, accessibility, and interaction rules.
 - **No-cookie ethics protocol.** Web apps must function fully and securely with zero cookie tracking — no analytics, advertising, fingerprinting, or third-party identifiers. Sessions are header tokens (`Authorization: Bearer` / `X-Session-Token`); at most one optional first-party `HttpOnly; SameSite=Lax` session-cookie fallback, never required. Passwords masked and salted+hashed; bootstrap credentials in a gitignored `auth` file; admin features hidden per role in the UI and enforced server-side. Full spec: `Otekh_App_Shell/docs/SECURITY_PRIVACY.md`.
+- **OTEKH App Manager.** Every app ships the shared installer block and writes a running marker so the status-bar manager can list and stop it. Apps where a blunt kill is unsafe must register a graceful `STOP_CMD` instead of building their own shutdown UI or tray icon. Contract and conventions: `APP_MANAGER.md`.
 
 ## Commenting standards
 
@@ -55,6 +56,7 @@ OTEKH_Apps_Design_2026/
 ├── MACOS.md                                 # macOS setup/packaging/testing
 ├── RASPBERRY_PI.md                          # Pi OS + Tkinter for local apps
 ├── WINDOWS.md                               # Windows — only when explicitly requested
+├── APP_MANAGER.md                           # shared status-bar manager + shutdown contract
 └── Otekh_App_Shell/                         # authoritative design system
     ├── Assets/                              # logos, app icons, UI reference image
     ├── components/                          # otekh-components.css + component-gallery.html

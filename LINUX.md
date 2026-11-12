@@ -55,6 +55,7 @@ Keep `LICENSE.txt` files alongside any distributed fonts.
 - Ship a `.desktop` entry and install icons into the hicolor theme (`/usr/share/icons/hicolor/<size>/apps/` or `~/.local/share/icons/hicolor/`).
 - Icon export sizes per `docs/ICON_AND_LOGO_RULES.md`: 16, 32, 64, 128, 256, 512 px PNGs.
 - AppStream metadata (`*.metainfo.xml`) if distributing through software centres or Flatpak.
+- **OTEKH App Manager**: ship the shared installer block (status-bar manager + `otekh_apps_stop` + autostart) and write a running marker. Do not ship a per-app tray icon for shutdown — the shared manager owns the status bar. Contract: `APP_MANAGER.md`.
 
 ## Packaging targets
 
